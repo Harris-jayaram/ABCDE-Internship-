@@ -81,12 +81,19 @@ Key Endpoints
 POST /users: Register user 
 
 POST /users/login: Get token
+
 GET /users: List users
+
 POST /items: Create item
+
 GET /items: List items
+
 POST /carts: Add to cart (authenticated)
+
 GET /carts: List carts
+
 POST /orders: Create order (authenticated)
+
 GET /orders: List orders (authenticated)
 
 Troubleshooting
