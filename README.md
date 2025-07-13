@@ -1,246 +1,109 @@
 # ABCDE-Internship-
 Full stack Shopping Cart
 
-E-commerce Application (React + Spring Boot)
-Project Overview
-This e-commerce application, built with a Spring Boot backend and a React frontend, fulfills the requirements for user management, item management, cart operations, and order management. It features token-based authentication to secure cart and order endpoints, ensuring only authenticated users can add items to a cart or view/create orders. The backend uses Spring Security with a custom TokenAuthenticationFilter to validate tokens, and the frontend uses Axios to interact with the API. The application resolves 403 Forbidden errors by properly handling tokens and configuring CORS for http://localhost:3000.
-Features Implemented
+E-commerce Application
+Overview
+This e-commerce application features a Spring Boot backend and React frontend, supporting user registration, login, item management, cart operations, and order management. It uses token-based authentication for secure cart and order actions, with CORS configured for http://localhost:3000. The project addresses authentication issues (e.g., 403 Forbidden) via a custom token filter.
+Features
 
-User Management:
-Register users (POST /users).
-Login to generate a token (POST /users/login).
-List all users (GET /users).
-
-
-Item Management:
-Create items (POST /items).
-List all items (GET /items).
-
-
-Cart Management:
-Add items to a user’s cart (POST /carts, authenticated).
-List all carts (GET /carts).
-
-
-Order Management:
-Create an order from a cart (POST /orders, authenticated).
-List a user’s orders (GET /orders, authenticated).
-
-
-Security:
-Token-based authentication via Authorization header.
-CORS configured for http://localhost:3000.
-CSRF disabled for testing (production recommendations provided).
-
-
-Frontend: React component (ItemList.js) for user interaction, including login, item listing, cart addition, and order viewing.
-
-Technologies Used
-
-Backend: Spring Boot, Spring Security, Spring Data JPA, H2 Database
-Frontend: React, Axios
-Tools: Maven, Node.js, Postman
+User registration and login with token generation
+Create and list items
+Add items to cart (authenticated)
+Create and view orders (authenticated)
 
 Prerequisites
 
-Backend:
-Java 17 or higher
+Java 17+
 Maven 3.6+
-H2 Database (in-memory, default)
-
-
-Frontend:
 Node.js 16+ and npm
+Postman for API testing
 Browser (e.g., Chrome)
 
+Setup and Running
+Clone the Repository
+Clone the project:
 
-Testing:
-Postman for API testing
+git clone <repository-url>
 
-
-IDE (optional): IntelliJ IDEA, VS Code
-
-Setup Instructions
 Backend Setup
 
-Clone the Repository:
-git clone <repository-url>
+Navigate to backend:
 cd ecommerce-backend
 
 
-Project Structure:Ensure the following files are in place:
-
-src/main/java/com/example/ecommerce_backend/controller/:
-UserController.java (user registration, login, listing)
-ItemController.java (item creation, listing)
-CartController.java (cart operations)
-OrderController.java (order operations)
+Install dependencies:
+Ensure pom.xml includes Spring Boot, Security, JPA, and H2 dependencies.
 
 
-src/main/java/com/example/ecommerce_backend/service/:
-UserService.java (user logic with token generation)
-ItemService.java (item logic)
-CartService.java (cart logic)
-OrderService.java (order logic)
+Configure database:
+Use H2 in-memory database (configured in application.properties).
 
 
-src/main/java/com/example/ecommerce_backend/security/SecurityConfig.java (token-based authentication)
-pom.xml (dependencies)
-src/main/resources/application.properties (database configuration)
-
-
-Dependencies:Update pom.xml:
-<dependencies>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-security</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-data-jpa</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>com.h2database</groupId>
-        <artifactId>h2</artifactId>
-        <scope>runtime</scope>
-    </dependency>
-</dependencies>
-
-
-Database Configuration:Add to src/main/resources/application.properties:
-spring.datasource.url=jdbc:h2:mem:testdb
-spring.datasource.driverClassName=org.h2.Driver
-spring.datasource.username=your_username
-spring.datasource.password=your_password
-spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-spring.h2.console.enabled=true
-spring.jpa.hibernate.ddl-auto=update
-logging.level.org.springframework.security=DEBUG
-
-
-Run the Backend:
+Run the backend:
 mvn spring-boot:run
-
-
 Backend runs on http://localhost:8080.
-H2 console: http://localhost:8080/h2-console (JDBC URL: jdbc:h2:mem:testdb).
 
 
 
 Frontend Setup
 
-Create or Clone Frontend:
-npx create-react-app frontend
+Navigate to frontend:
 cd frontend
 
 
-Install Axios:
-npm install axios
+Install dependencies:
+npm install
+Ensure Axios is installed (npm install axios).
 
 
-Add ItemList.js:Copy the provided ItemList.js (from previous responses) to src/ItemList.js. It handles login, item listing, cart addition, and order viewing with proper token management.
-
-Run the Frontend:
+Run the frontend:
 npm start
-
-
 Frontend runs on http://localhost:3000.
 
 
 
-Running the Application
+Initialize Data
 
-Start the Backend:
-cd ecommerce-backend
-mvn spring-boot:run
+Create a user via Postman (see Postman collection).
+Create an item via Postman.
+Use the frontend to login, add items to cart, and view orders.
 
+API Interaction
+Use Postman to test the API:
 
-Start the Frontend:
-cd frontend
-npm start
+Import ecommerce-api.postman_collection.json (provided).
+Register a user and login to get a token.
+Use the token in the Authorization header for cart and order requests.
+Refer to the Postman collection for endpoint details and sample data.
 
+Key Endpoints
 
-Initialize Data:
-
-Create a user:curl -X POST http://localhost:8080/users \
--H "Content-Type: application/json" \
--d '{"username": "testuser", "password": "testpass"}'
-
-
-Create an item:curl -X POST http://localhost:8080/items \
--H "Content-Type: application/json" \
--d '{"name": "Test Item", "price": 10.0}'
-
-
-
-
-Interact via Frontend:
-
-Open http://localhost:3000.
-Click “Login” with testuser/testpass (update ItemList.js with valid credentials).
-Use “Add to Cart” and “View Orders” buttons.
-
-
-
-Interacting with the API
-The API uses token-based authentication. Obtain a token via POST /users/login and include it in the Authorization header for protected endpoints (POST /carts, POST /orders, GET /orders).
-Endpoints
-
-Users:
-POST /users: Register a user (no auth).
-POST /users/login: Login to get a token (no auth).
-GET /users: List all users (no auth).
-
-
-Items:
-POST /items: Create an item (no auth).
-GET /items: List all items (no auth).
-
-
-Carts:
-POST /carts: Add item to cart (requires Authorization: <token>).
-GET /carts: List all carts (no auth).
-
-
-Orders:
-POST /orders: Create an order (requires Authorization: <token>).
-GET /orders: List user’s orders (requires Authorization: <token>).
-
-
-
-Postman Testing
-
-Import the provided ecommerce-api.postman_collection.json into Postman.
-Set the token environment variable after running Login.
-Run requests in order: register, login, create item, add to cart, create order, view orders.
-See the Postman collection for raw data samples.
+POST /users: Register user
+POST /users/login: Get token
+GET /users: List users
+POST /items: Create item
+GET /items: List items
+POST /carts: Add to cart (authenticated)
+GET /carts: List carts
+POST /orders: Create order (authenticated)
+GET /orders: List orders (authenticated)
 
 Troubleshooting
 
-403 Forbidden Errors:
-Ensure the Authorization header contains the exact token from POST /users/login.
-Verify the token exists in the users table (H2 console: SELECT * FROM users).
-Check server logs (logging.level.org.springframework.security=DEBUG) for authentication errors.
-Test with Postman to isolate frontend issues.
+403 Forbidden:
+Verify the Authorization header uses a valid token from POST /users/login.
+Check server logs (logging.level.org.springframework.security=DEBUG).
+Ensure user and item exist in the H2 database (http://localhost:8080/h2-console).
 
 
 CORS Issues:
 Confirm http://localhost:3000 is allowed in SecurityConfig.java.
-Check browser console for CORS errors.
 
 
-Database Issues:
-Verify users and items exist (H2 console: http://localhost:8080/h2-console).
-Ensure itemId and cartId are valid in POST /carts and POST /orders.
+Database:
+Verify data in H2 console (JDBC URL: jdbc:h2:mem:testdb).
 
 
 
-Notes for Production
-
-Re-enable CSRF protection in SecurityConfig.java and configure the frontend to include CSRF tokens.
-Use a persistent database (e.g., MySQL) instead of H2.
-Secure the token storage in the frontend (e.g., HttpOnly cookies instead of localStorage).
+Postman Testing
+Import the provided Postman collection to test all endpoints. Set the token environment variable after login. Sample request/response data is included.
