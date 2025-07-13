@@ -78,7 +78,8 @@ Refer to the Postman collection for endpoint details and sample data.
 
 Key Endpoints
 
-POST /users: Register user
+POST /users: Register user 
+
 POST /users/login: Get token
 GET /users: List users
 POST /items: Create item
